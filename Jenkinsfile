@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         name = "test"
-        url = "http://localhost:8080"
+        url = "http://3.84.182.159:8080"
     }
     stages {
         stage('Build-1') {
