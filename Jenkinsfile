@@ -1,77 +1,23 @@
 pipeline {
     agent any
-    environment {
-        name = "test"
-        url = "http://3.84.182.159:8080"
-    }
     stages {
-        stage('Build-1') {
+        stage("Clean Up") {
             steps {
-                sh 'echo "hello world"'
-                sh '''
-                echo $name
-                echo $url
-                echo "ilk step"
-                sleep 5
-                '''
-            }
-            when{
-                environment name: 'name', value: 'test'
+                deleteDir()
             }
         }
-        stage('Build-2') {
+        stage("Clone Repo") {
             steps {
-                sh 'echo "hello world"'
-                sh '''
-                echo $name
-                echo $url
-                echo "ikinci step"
-                sleep 10
-                '''
-            }
-            when{
-                environment name: 'name', value: 'production' 
+                sh "git clone https://github.com/ahmetcanyilmaz2022/pipeline-with-jenkinsfile-and-webhook.git"
             }
         }
-        stage('Build-4') {
+        stage('Build') {
             steps {
-                sh 'echo "hello world"'
-                sh '''
-                echo $name
-                echo $url
-                echo "ilk step"
-                sleep 15
-                '''
-            }
-            when{
-                environment name: 'name', value: 'test'
+                echo "deneme amacli"
+                python3 'pipeline.py'
+                echo 'not using shell in the Jenkinsfile'
             }
         }
-        stage('Build-3') {
-            parallel {
-                stage('Paralel1'){
-                    steps {
-                        sh '''
-                        echo 'ilk paralel'
-                        sleep 10 '''
-                    }
-                }
-                stage('Paralel2'){
-                    steps {
-                        sh '''
-                        echo 'ilk paralel'
-                        sleep 25 '''
-                    }
-                }
-            }
-        }        
+       
     }
-    post {
-        success {
-            sh '''
-            echo "Hello World"
-            echo "post ${name}"
-            '''
-        }
-    }
 }
