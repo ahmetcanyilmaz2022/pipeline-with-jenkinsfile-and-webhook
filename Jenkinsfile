@@ -14,7 +14,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo "deneme amacli"
-                sh 'python pipeline.py'
                 echo 'not using shell in the Jenkinsfile'
                 cat 'pipeline.py'
             }
